@@ -72,10 +72,9 @@ ssh2006=np.ma.masked_array(ssh2006data,mask=ssh2006mask)
 # define polygon representing Off-Slope Region (OSR)
 polygon,polygon2,LONPD,LATPD,Xdummy,Ydummy=define_polygonD6(lon,lat)
 
-# GET BATHYMETRY for our domain
-nc=netCDF4.Dataset('/Users/sarahzedler/darwin/roms/mabgom4_hycom.nc')
-HGB=np.squeeze(nc.variables['h'][:])
-nc.close()
+f=np.load('H_bottom_bathymetry.npz')
+HGB=f['H'][:]
+f.close()
 
 lonGB=np.ma.masked_where(np.logical_or(lon<=-74,np.logical_or(lon>=-64,np.logical_or(lat<=38,lat>=46))),lon)
 latGB=np.ma.masked_where(lonGB.mask==True,lat)
